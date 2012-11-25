@@ -19,7 +19,13 @@ void ninety(char *toChange)
 		i++;
 	}
 
-	toChange = newArr;
+	i = 0;
+
+	while(i < length * length)
+	{
+		toChange[i] = newArr[i];
+		i++;
+	}
 }
 
 void reflect(char *toChange)
@@ -30,11 +36,17 @@ void reflect(char *toChange)
 
 	while(i < length * length)
 	{
-		newArr[i] = toChange[(length * (i / length)) + (length - (i % length))];
+		newArr[i] = toChange[(length * ((i / length) + 1)) - (i % length) - 1];
 		i++;
 	}
 
-	toChange = newArr;
+	i = 0;
+
+	while(i < length * length)
+	{
+		toChange[i] = newArr[i];
+		i++;
+	}
 }
 
 int match(char *one, char *two)
@@ -70,7 +82,10 @@ int main()
 	while(i < length * length)
 	{
 		fscanf(in, "%c", &orig[i]);
-		i++;
+		if(orig[i] != '\n')
+		{
+			i++;
+		}
 	}
 
 	i = 0;
@@ -78,27 +93,26 @@ int main()
 	while(i < length * length)
 	{
 		fscanf(in, "%c", &trans[i]);
-		i++;
-	}
-
-	i = 0;
-
-	while(i < length * length)
-	{
-		printf("%c", orig[i]);
-		if(i % length == 0)
+		if(trans[i] != '\n')
 		{
-			printf("\n");
+			i++;
 		}
-
-		i++;
 	}
 
 	fclose(in);
 
+//Done parsing input!
+
+	int flag = 0;
+
+	if(match(orig, trans) == 1)
+		flag = 1;
+
+	ninety(orig);
+
 	if(match(orig, trans) == 1)
 	{
-		fprintf(out, "%d", 6);
+		fprintf(out, "%d\n", 1);
 		fclose(out);
 		return 0;
 	}
@@ -107,7 +121,7 @@ int main()
 
 	if(match(orig, trans) == 1)
 	{
-		fprintf(out, "%d", 1);
+		fprintf(out, "%d\n", 2);
 		fclose(out);
 		return 0;
 	}
@@ -116,16 +130,7 @@ int main()
 
 	if(match(orig, trans) == 1)
 	{
-		fprintf(out, "%d", 2);
-		fclose(out);
-		return 0;
-	}
-
-	ninety(orig);
-
-	if(match(orig, trans) == 1)
-	{
-		fprintf(out, "%d", 3);
+		fprintf(out, "%d\n", 3);
 		fclose(out);
 		return 0;
 	}
@@ -134,9 +139,19 @@ int main()
 
 	reflect(orig);
 
+	i = 0;
+
+	while(i < length * length)
+	{
+		printf("%c",orig[i]);
+		i++;
+		if(i % length == 0)
+			printf("\n");
+	}
+
 	if(match(orig, trans) == 1)
 	{
-		fprintf(out, "%d", 4);
+		fprintf(out, "%d\n", 4);
 		fclose(out);
 		return 0;
 	}
@@ -145,7 +160,7 @@ int main()
 
 	if(match(orig, trans) == 1)
 	{
-		fprintf(out, "%d", 4);
+		fprintf(out, "%d\n", 5);
 		fclose(out);
 		return 0;
 	}
@@ -154,7 +169,7 @@ int main()
 
 	if(match(orig, trans) == 1)
 	{
-		fprintf(out, "%d", 4);
+		fprintf(out, "%d\n", 5);
 		fclose(out);
 		return 0;
 	}
@@ -163,12 +178,19 @@ int main()
 
 	if(match(orig, trans) == 1)
 	{
-		fprintf(out, "%d", 4);
+		fprintf(out, "%d\n", 5);
 		fclose(out);
 		return 0;
 	}
 
-	fprintf(out, "%d", 7);
+	if(flag == 1)
+	{
+		fprintf(out, "%d\n", 6);
+		fclose(out);
+		return 0;
+	}
+
+	fprintf(out, "%d\n", 7);
 	fclose(out);
 	return 0;
 }
